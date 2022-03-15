@@ -64,7 +64,7 @@ function App() {
                             {navbarItem.map(item =>
                                 <Nav.Link href={item.to}>{item.title}</Nav.Link>
                                 )}
-                                <Nav.Link href ={true?'/profile':'login'}>Profile</Nav.Link>
+                                <Nav.Link href ={(localStorage.getItem("accessToken")===true)?'/profile':'/login'}>Profile</Nav.Link>
                             
                         </Nav>
                     </Navbar.Collapse>

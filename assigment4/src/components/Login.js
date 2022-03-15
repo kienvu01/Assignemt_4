@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import LoginContext from "../context/LoginContext";
 
@@ -8,8 +8,6 @@ export const Login = () => {
     const [email, setEmail] = useState("");
     const [passwordError, setpasswordError] = useState("");
     const [emailError, setemailError] = useState("");
-
-
   
     const handleValidation = (event) => {
       let formIsValid = true;
@@ -33,22 +31,27 @@ export const Login = () => {
         setpasswordError("");
         formIsValid = true;
       }
-      if(formIsValid) setLogin(true);
+      
       return formIsValid;
     };
-    const [login, setLogin] = useState(false)
+
 
     const loginSubmit = (e) => {
       e.preventDefault();
-      handleValidation();
-      console.log(login)
-    
+      handleValidation();     
+      localStorage.setItem("accessToken",true);
+      
     };
+    const logout = ()=>{
+      
+        localStorage.removeItem("accessToken");
+    };
+
+    console.log("token:",localStorage.getItem("accessToken"))
   
   return (
 
     <div className="container">
-      <LoginContext.Provider value={login}></LoginContext.Provider>
     <div className="row d-flex justify-content-center">
       <div className="col-md-4">
         <form id="loginform" onSubmit={loginSubmit}>
@@ -91,10 +94,14 @@ export const Login = () => {
           <button type="submit" className="btn btn-primary" >         
             Submit
           </button>
-          <>{login?(
-            <section>
+          <>{localStorage.getItem("accessToken")?(
+            <div>
+              <p>{localStorage.getItem("accessToken")}</p>
               <h2>You are logged in</h2>
-            </section>
+              <button onClick={logout} className="btn btn-danger" >         
+            Logout
+          </button>
+            </div>         
           ):<></>}</>
         </form>
       </div>
